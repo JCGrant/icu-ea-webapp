@@ -4,6 +4,7 @@
   "description": "A web app for interacting with Imperial College Union's eActivities",
   "main": "index.js",
   "scripts": {
+    "postinstall": "webpack -p --progress --colors",
     "build-client": "./node_modules/webpack/bin/webpack.js",
     "watch-client": "./node_modules/webpack/bin/webpack.js -w"
   },
