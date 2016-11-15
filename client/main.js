@@ -1,43 +1,48 @@
 import React, { Component, PropTypes} from 'react';
 import { render } from 'react-dom';
+import Select from 'react-select';
 
-const Member = (props) => {
-  const member = props.member;
-  const fullName = member.FirstName + ' ' + member.Surname;
-  return <li>{fullName}</li>;
+const memberName = (member) => {
+  return member.FirstName + ' ' + member.Surname;
 };
 
-const MembersList = (props) => {
-  const members = props.members;
-  return (
-    <ul>{
-      members.map((member, i) =>
-        <Member key={i} member={member} />
-      )
-    }</ul>
-  );
+const getMemberOptions = (input) => {
+  return fetch('/members')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      return {
+        options: responseJson.members.map((member) => {
+          const name = memberName(member);
+          return { value: name, label: name };
+        }),
+      };
+    });
 };
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      members: [],
+      selectValue: '',
     };
-    this.getMembers();
   }
 
   render() {
-    return <MembersList members={this.state.members} />;
+    return (
+      <div>
+        <h3>Members</h3>
+        <Select.Async
+          value={this.state.selectValue}
+          onChange={this.updateValue.bind(this)}
+          loadOptions={getMemberOptions}
+        />
+      </div>
+    );
   }
 
-  getMembers() {
-    fetch('/members')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({members: responseJson.members});
-      });
+  updateValue(selectValue) {
+    this.setState({selectValue});
   }
-}
+};
 
 render(<App/>, document.getElementById('app'));
