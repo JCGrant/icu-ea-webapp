@@ -1,6 +1,7 @@
 import React, { Component, PropTypes} from 'react';
 import { render } from 'react-dom';
 import Select from 'react-select';
+import './style.scss';
 
 const memberName = (member) => {
   return member.FirstName + ' ' + member.Surname;
@@ -29,7 +30,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h3>Members</h3>
         <Select.Async
           value={this.state.selectValue}

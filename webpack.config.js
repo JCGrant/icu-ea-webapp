@@ -21,10 +21,8 @@ var config = {
           'babel?cacheDirectory',
         ],
       },
-      {
-        test: /\.json$/,
-        loader: 'json',
-      },
+      { test: /\.json$/, loader: 'json' },
+      { test: /\.scss$/, loaders: [ 'style', 'css', 'sass' ]}
     ],
   },
 };
