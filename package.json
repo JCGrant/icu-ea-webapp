@@ -4,7 +4,8 @@
   "description": "A web app for interacting with Imperial College Union's eActivities",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors"
+    "build-client": "./node_modules/webpack/bin/webpack.js",
+    "watch-client": "./node_modules/webpack/bin/webpack.js -w"
   },
   "author": "JCGrant",
   "license": "MIT",
