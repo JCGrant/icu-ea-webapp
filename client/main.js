@@ -27,9 +27,9 @@ class App extends Component {
       });
   }
 
-  updateSelectedMember(selectedMember) {
+  updateSelectedMember = (selectedMember) =>  {
     this.setState({selectedMember});
-  }
+  };
 
   constructor() {
     super();
@@ -46,7 +46,7 @@ class App extends Component {
         <h3>Members</h3>
         <Select
           value={this.state.selectedMember}
-          onChange={this.updateSelectedMember.bind(this)}
+          onChange={this.updateSelectedMember}
           options={this.state.memberOptionList}
         />
       </div>
