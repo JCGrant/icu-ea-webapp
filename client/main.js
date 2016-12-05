@@ -7,42 +7,50 @@ const memberName = (member) => {
   return member.FirstName + ' ' + member.Surname;
 };
 
-const getMemberOptions = (input) => {
-  return fetch('/members')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      return {
-        options: responseJson.members.map((member) => {
-          const name = memberName(member);
-          return { value: name, label: name };
-        }),
-      };
-    });
+const memberOption = (member) => {
+  const name = memberName(member);
+  return { value: name, label: name };
 };
 
 class App extends Component {
+  fetchMembers() {
+    return fetch('/members')
+      .then((response) => response.json())
+      .then((responseJson) => responseJson.members);
+  }
+
+  setMemberList() {
+    this.fetchMembers()
+      .then((members) => {
+        const memberOptionList = members.map(memberOption);
+        this.setState({memberOptionList});
+      });
+  }
+
+  updateSelectedMember(selectedMember) {
+    this.setState({selectedMember});
+  }
+
   constructor() {
     super();
     this.state = {
-      selectValue: '',
+      selectedMember: '',
+      memberOptionList: [],
     };
+    this.setMemberList();
   }
 
   render() {
     return (
       <div className="container">
         <h3>Members</h3>
-        <Select.Async
-          value={this.state.selectValue}
-          onChange={this.updateValue.bind(this)}
-          loadOptions={getMemberOptions}
+        <Select
+          value={this.state.selectedMember}
+          onChange={this.updateSelectedMember.bind(this)}
+          options={this.state.memberOptionList}
         />
       </div>
     );
-  }
-
-  updateValue(selectValue) {
-    this.setState({selectValue});
   }
 };
 
